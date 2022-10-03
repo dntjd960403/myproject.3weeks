@@ -10,13 +10,6 @@ app.get('/', (req, res) => {
     res.send('Welcome to my blog');
 });
 
-app.post("/", (req,res) => {
-    console.log(req.body)
-  
-    res.send("기본 URI에 POST 메소드가 정상적으로 실행되었습니다.");
-})
-
-
 app.use(express.json());
 
 app.use("/api", [postsRouter, commentsRouter]); //미들웨어 사용
