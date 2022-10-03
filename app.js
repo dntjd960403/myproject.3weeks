@@ -6,13 +6,14 @@ const commentsRouter = require("./routes/comments"); //미들웨어 사용
 const connect = require("./schemas");
 connect();
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.send('Welcome to my blog');
 });
 
-app.use(express.json());
-
-app.use("/api", [postsRouter, commentsRouter]); //미들웨어 사용
+app.use("/posts", [postsRouter]);//미들웨어 사용
+app.use("/comments", [commentsRouter]);
 
 app.listen(port, () => {
     console.log(port, '포트로 서버가 열렸어요!');
