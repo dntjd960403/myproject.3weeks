@@ -32,10 +32,8 @@ router.post("/", async (req, res) => {
 // 게시글 수정 API
 router.put("/:postsId", async (req, res) => {
 	const { postsId } = req.params;
-	const { password } = req.body;
-	const { title } = req.body;
-	const { contents } = req.body;
-
+	const { password, title, contents } = req.body;
+	
 	const existsPosts = await Posts.find({ _id: postsId }); // _id가 postsId인 애를 가져와라
 	if (existsPosts.length) {
         if (existsPosts.password === password) {
