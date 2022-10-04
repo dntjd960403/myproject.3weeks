@@ -8,9 +8,12 @@ router.post("/:postId", async (req, res) => {
     const { postId } = req.params
     const { name, content, password} = req.body;
 
+    if( content !== "") {
     const createdComment = await Comments.create({ name, content, password, postId });
-
-  res.json({ message: "댓글을 생성하였습니다.", data: createdComment});
+    res.json({ message: "댓글을 생성하였습니다.", data: createdComment});
+    } else {
+        res.status(400).json({ message: "댓글을 입력해 주세요"})
+    }
 });
 
 //댓글 목록 API
@@ -30,11 +33,13 @@ router.put("/:commentId", async (req, res) => {
 	const { password, content } = req.body;
 
 	const existsComments = await Comments.find({ _id: commentId }); // _id가 postsId인 애를 가져와라
-    console.log(existsComments[0].password)
     if (existsComments[0].password === password) {
-        await Comments.updateOne({ _id: commentId },
-        { $set: { content } });
-        return res.json ({ message: "댓글을 수정하였습니다."})
+        if( content !== "") {
+            await Comments.updateOne({ _id: commentId }, { $set: { content } });
+            return res.json ({ message: "댓글을 수정하였습니다."})
+        } else {
+            return res.status(400).json({ message: "댓글을 입력해 주세요"})
+        }
     }
     else return res.status(400).json({ success: false, errorMessage: "비밀번호가 틀렸슈" });
 }) 
