@@ -36,7 +36,7 @@ router.put("/:postsId", async (req, res) => {
 	
 	const existsPosts = await Posts.find({ _id: postsId }); // _id가 postsId인 애를 가져와라
 	if (existsPosts.length) {
-        if (existsPosts.password === password) {
+        if (existsPosts[0].password === password) {
             await Posts.updateOne({ _id: postsId },
             { $set: { title, contents } });
             return res.json ({ message: "게시글을 수정하였습니다."})
